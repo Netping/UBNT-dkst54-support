@@ -1,5 +1,5 @@
-ubnt-dkst54-support (2.1-1) unstable; urgency=low
+ubnt-dkst54-support (2.1-2) unstable; urgency=low
 
-  * Bla bla sux.
+  * Fixed outgoing connections
 
- -- Valery V. Sedletski <_valerius@mail.ru>  Tue, 16 Apr 2024 00:52:00 -0300
+ -- Netping DKSL team <support@netping.ru>  Tue, 23 Sep 2024 00:52:00 -0300

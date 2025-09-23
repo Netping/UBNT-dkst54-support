@@ -35,9 +35,9 @@ COMMIT
 -A INPUT -i lo -j ACCEPT
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A INPUT -i $dkst -m state --state NEW -j ACCEPT
--A FORWARD -i $lan -o $dkst -m state --state RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -i $dkst -o $lan -j ACCEPT
--A FORWARD -i $dkst -o $lan -j REJECT --reject-with icmp-port-unreachable
+
+-A FORWARD -i $dkst -o $lan -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+-A FORWARD -i $lan -o $dkst -m state --state ESTABLISHED,RELATED -j ACCEPT
 COMMIT
 # Completed on Wed Dec  8 01:52:13 2021
 " >/etc/iptables/rules.v4
@@ -64,14 +64,15 @@ iptables -A INPUT -m state --state NEW -i $dkst -j ACCEPT
 iptables -A FORWARD -i $lan -o $dkst -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # Allow outgoing connections from the LAN side.
-iptables -A FORWARD -i $dkst -o $lan -j ACCEPT
+iptables -A FORWARD -i $dkst -o $lan -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
 
 # Masquerade.
 iptables -t nat -A POSTROUTING -o $lan -j MASQUERADE
 
 # Don't forward from the outside to the inside.
-iptables -A FORWARD -i $dkst -o $lan -j REJECT
-iptables -A FORWARD -i $dkst -o $lan -j REJECT
+#iptables -A FORWARD -i $dkst -o $lan -j REJECT
+#iptables -A FORWARD -i $dkst -o $lan -j REJECT
 # Enable routing.
 echo 1 > /proc/sys/net/ipv4/ip_forward
 " >/etc/np_scripts/route.sh
