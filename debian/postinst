@@ -74,10 +74,16 @@ iptables -t nat -A POSTROUTING -o $lan -j MASQUERADE
 #iptables -A FORWARD -i $dkst -o $lan -j REJECT
 #iptables -A FORWARD -i $dkst -o $lan -j REJECT
 # Enable routing.
-echo 1 > /proc/sys/net/ipv4/ip_forward
+echo 1 | tee /proc/sys/net/ipv4/ip_forward
 " >/etc/np_scripts/route.sh
 
 chmod 755 /etc/np_scripts/route.sh
+
+mkdir -p /etc/sysctl.d/
+echo "net.ipv4.ip_forward=1" >/etc/sysctl.d/99-ip-forwarding.conf
+
+sysctl -p /etc/sysctl.d/99-ip-forwarding.conf
+bash /etc/np_scripts/route.sh
 
 
 exit 0

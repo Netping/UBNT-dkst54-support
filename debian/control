@@ -2,7 +2,7 @@ Source: ubnt-dkst54-support
 Section: misc
 Priority: optional
 Maintainer: support@netping.ru
-Version: 2.1-2
+Version: 2.1-4
 
 Package: ubnt-dkst54-support
 Architecture: all
